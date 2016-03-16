@@ -1,0 +1,52 @@
+/*
+ Copyright 2015 SpinalCom  www.spinalcom.com
+  
+
+ This file is part of SpinalCore.
+
+ SpinalCore is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Soca is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with Soca. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+#ifndef MODELWITHATTR_H
+#define MODELWITHATTR_H
+
+#include "Model.h"
+#include <QtCore/QPair>
+
+/**
+
+*/
+class ModelWithAttr : public Model {
+public:
+    struct Attr {
+        QString key;
+        Model  *val;
+    };
+    ModelWithAttr();
+
+    virtual void    write_usr ( BinOut &nut, BinOut &uut, Database *db );
+    virtual void    write_str ( QDebug  dbg ) const;
+    virtual void    add_attr  ( QString key, Model *m );
+    virtual int     attr_index( QString key ) const;
+    virtual Model  *attr      ( QString key ) const;
+    virtual Model  *attr      ( int index ) const;
+    virtual QString key       ( int index ) const;
+    virtual int     size      () const;
+
+    virtual bool    _set      ( int size, QVector<Model *> &model_stack, QVector<QString> &string_stack );
+
+    QVector<Attr> _data;
+};
+
+#endif // MODELWITHATTR_H
