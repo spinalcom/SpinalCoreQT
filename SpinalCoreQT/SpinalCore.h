@@ -25,10 +25,12 @@
 #pragma inc_path /usr/include/qt4
 #endif // METIL_COMP_DIRECTIVE
 
-#include "../MP.h"
-
+#include <QtCore/QCoreApplication>
 #include <QtNetwork/QHostAddress>
 #include <QtCore/QVector>
+
+#include "ModelPointer.h"
+
 
 /**
 
@@ -44,7 +46,7 @@ public:
         bool change() const { return event_type == Change; }
         bool load() const { return event_type == Load; }
 
-        MP mp() { return MP( client_loop, model ); }
+        ModelPointer mp() { return ModelPointer( client_loop, model ); }
         operator bool() const { return event_type != Disconnection; }
 
         //
@@ -62,9 +64,9 @@ public:
     ~SpinalCore();
 
     void  reg_type( QString type, bool auto_reg_model = true ); ///< permit to get an event if an object of type $type is created on the server
-    void  reg_model( const MP &mp ); ///< if changed, model will generate an Change event
-    MP    load_ptr( quint64 ptr ); ///< asynchronous load
-    MP    load( QString path ); ///< asynchronous load
+    void  reg_model( const ModelPointer &mp ); ///< if changed, model will generate an Change event
+    ModelPointer    load_ptr( quint64 ptr ); ///< asynchronous load
+    ModelPointer    load( QString path ); ///< asynchronous load
     Event event(); ///< wait for an event
 
     bool   connected() const;
@@ -88,7 +90,7 @@ private slots:
 
 private:
     void _exit(); ///< exit from qevent_loop
-    MP   _wait_load( int n ); ///< asynchronous load
+    ModelPointer   _wait_load( int n ); ///< asynchronous load
 
     class ClientLoop *client_loop;
     class QEventLoop *qevent_loop;

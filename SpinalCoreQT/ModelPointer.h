@@ -18,8 +18,8 @@
 */
 
 
-#ifndef MP_H
-#define MP_H
+#ifndef ModelPointer_H
+#define ModelPointer_H
 
 #include "Com/ClientLoop.h"
 #include "Model/Lst.h"
@@ -27,23 +27,23 @@
 /**
    Model Pointer. Permits operations on models
 */
-class MP {
+class ModelPointer {
 public:
     struct NewObj { QString type; };
 
-    MP( ClientLoop *c, Model *m, QString p );
-    MP( ClientLoop *c, Model *m );
-    MP( Model *m = 0 );
+    ModelPointer( ClientLoop *c, Model *m, QString p );
+    ModelPointer( ClientLoop *c, Model *m );
+    ModelPointer( Model *m = 0 );
 
     void flush(); ///< send modified data to ClientLoop
 
-    void reassign( MP mp ) { if ( mp.c ) c = mp.c; m = mp.m; }
+    void reassign( ModelPointer mp ) { if ( mp.c ) c = mp.c; m = mp.m; }
 
-    MP operator[]( const char *path ) const { return operator[]( QString( path ) ); }
-    MP operator[]( QString path ) const; ///< returns a sub-model
-    MP operator[]( int index ) const; ///< returns a sub-model
+    ModelPointer operator[]( const char *path ) const { return operator[]( QString( path ) ); }
+    ModelPointer operator[]( QString path ) const; ///< returns a sub-model
+    ModelPointer operator[]( int index ) const; ///< returns a sub-model
 
-    MP &operator=( const MP &val ) {
+    ModelPointer &operator=( const ModelPointer &val ) {
         if ( val.m ) {
             if ( p.size() and m ) {
                 m->add_attr( p, val.m );
@@ -58,7 +58,7 @@ public:
     }
 
     template<class T>
-    MP &operator=( const T &val ) {
+    ModelPointer &operator=( const T &val ) {
         if ( p.size() and m ) {
             Model *o = m;
             m = conv( val );
@@ -72,7 +72,7 @@ public:
     }
 
     template<class T>
-    MP &operator<<( const T &val ) {
+    ModelPointer &operator<<( const T &val ) {
         if ( p.size() and m ) {
             Model *o = m;
             m = new Lst;
@@ -108,20 +108,20 @@ public:
 
     void signal_change();
 
-    static MP new_obj( QString type = "Model" );
+    static ModelPointer new_obj( QString type = "Model" );
 
-    static MP new_lst();
-    static MP new_lst( QString type ); ///< Lst with alternate type
-    static MP new_path( QString filename );
-    static MP new_file( QString name, MP model ); ///<
-    static MP new_ptr( MP model );
+    static ModelPointer new_lst();
+    static ModelPointer new_lst( QString type ); ///< Lst with alternate type
+    static ModelPointer new_path( QString filename );
+    static ModelPointer new_file( QString name, ModelPointer model ); ///<
+    static ModelPointer new_ptr( ModelPointer model );
 
-    static MP new_typed_array_qint32();
+    static ModelPointer new_typed_array_qint32();
     quint64 get_server_id(); ///<
 
 private:
-    friend QDebug operator<<( QDebug dbg, const MP &c );
-    static Model *conv( const MP &mp );
+    friend QDebug operator<<( QDebug dbg, const ModelPointer &c );
+    static Model *conv( const ModelPointer &mp );
     static Model *conv( quint64 val );
     static Model *conv( quint32 val );
     static Model *conv( qint64 val );
@@ -135,4 +135,4 @@ private:
 };
 
 
-#endif // MP_H
+#endif // ModelPointer_H

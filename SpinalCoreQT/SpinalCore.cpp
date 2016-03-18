@@ -18,9 +18,8 @@
 */
 
 
-#include <QtCore/QCoreApplication>
 #include "SpinalCore.h"
-#include "ClientLoop.h"
+#include "Com/ClientLoop.h"
 
 int SpinalCore::_nb_inst = 0;
 static QCoreApplication *qcore_application = 0;
@@ -56,16 +55,16 @@ void SpinalCore::reg_type( QString type, bool auto_reg_model ) {
         client_loop->reg_type_for_callback( type, this, SLOT(reg_type_callback(quint64)) );
 }
 
-void SpinalCore::reg_model( const MP &mp ) {
+void SpinalCore::reg_model( const ModelPointer &mp ) {
     if ( Model *m = mp.model() )
         client_loop->reg_model( m, this, SLOT(change_callback(Model*)) );
 }
 
-MP SpinalCore::load_ptr( quint64 ptr ) {
+ModelPointer SpinalCore::load_ptr( quint64 ptr ) {
     return _wait_load( client_loop->load_ptr( ptr, this, SLOT(load_callback(Model*,int)) ) );
 }
 
-MP SpinalCore::load( QString path ) {
+ModelPointer SpinalCore::load( QString path ) {
     return _wait_load( client_loop->load( path, this, SLOT(load_callback(Model*,int)) ) );
 }
 
@@ -106,14 +105,14 @@ void SpinalCore::_exit() {
 }
 
 
-MP SpinalCore::_wait_load( int n ) {
+ModelPointer SpinalCore::_wait_load( int n ) {
     while ( true ) {
         _wait();
         for( int i = pending_events.size() - 1; i >= 0; --i ) {
             if ( pending_events[ i ].event_type == Event::Load and pending_events[ i ].n_callback == n ) {
                 Model *res = pending_events[ i ].model;
                 pending_events.remove( i );
-                return MP( client_loop, res );
+                return ModelPointer( client_loop, res );
             }
         }
     }
