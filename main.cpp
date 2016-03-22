@@ -1,6 +1,6 @@
 #include "SpinalCoreQT/SpinalCore.h"
 
-#include "Process.h"
+#include "process.h"
 
 int main()
 {
