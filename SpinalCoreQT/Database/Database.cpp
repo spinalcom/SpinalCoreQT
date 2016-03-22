@@ -1,22 +1,27 @@
 /*
- Copyright 2015 SpinalCom  www.spinalcom.com
-  
-
- This file is part of SpinalCore.
-
- SpinalCore is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- Soca is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with Soca. If not, see <http://www.gnu.org/licenses/>.
+ Copyright 2015 SpinalCom - www.spinalcom.com
+*
+* This file is part of SpinalCore.
+*
+* Please read all of the following terms and conditions
+* of the Free Software license Agreement ("Agreement")
+* carefully.
+*
+* This Agreement is a legally binding contract between
+* the Licensee (as defined below) and SpinalCom that
+* sets forth the terms and conditions that govern your
+* use of the Program. By installing and/or using the
+* Program, you agree to abide by all the terms and
+* conditions stated or referenced herein.
+*
+* If you do not agree to abide by these terms and
+* conditions, do not demonstrate your acceptance and do
+* not install or use the Program.
+*
+* You should have received a copy of the license along
+* with this file. If not, see
+* <http://resources.spinalcom.com/licenses.pdf>.
 */
-
 
 #include "../Com/ClientLoop.h"
 #include "../Sys/BinOut.h"
@@ -60,10 +65,14 @@ void Database::end_round() {
     cur_date += 2;
 
     BinOut nut, uut;
+    bool clear_changed_models = false;                  //TESTING du 21/03/16
     foreach( Model *m, changed_models ) {
         // have something to send to the server ?
-        if ( not m->_changed_from_ext )
+        if ( not m->_changed_from_ext ){
             m->write_usr( nut, uut, this );
+            clear_changed_models = true;                //TESTING
+        }
+        m->_changed_from_ext = true;                    //TESTING
 
         // registered callback(s) ?
         _call_onchange_loc( m, 1 );
@@ -74,11 +83,13 @@ void Database::end_round() {
     // send data
     if ( nut.size() or uut.size() ) {
         nut << uut;
-        foreach( ClientLoop *c, clients )
+        foreach( ClientLoop *c, clients ) {
             *c << nut;
+            c->flush_out();                             //TESTING
+        }
     }
-
-    changed_models.clear();
+    if (clear_changed_models)                           //TESTING
+        changed_models.clear();
 }
 
 Model *Database::model( qint64 m ) const {

@@ -1,20 +1,15 @@
-#ifndef LAUNCHER_H
-#define LAUNCHER_H
+#ifndef PROCESS_H
+#define PROCESS_H
 #include <SpinalCoreQT/SpinalCore.h>
 #include <QtCore/QList>
 
 class Process : public QObject {
-  Q_OBJECT
- public:
-    Process();
-    ~Process();
-    
- public slots:
-      void launch(SpinalCore::Event event);
-      
- public: 
-      SpinalCore* connector;
-      QList<ModelPointer> models;
+    public:
+        Process();
+        ~Process();
+        void onchange(SpinalCore::Event event);
+        SpinalCore* connector;
+        QList<ModelPointer> models;
 };
 
-#endif // LAUNCHER_H
+#endif // PROCESS_H

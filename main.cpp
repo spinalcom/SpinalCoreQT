@@ -2,25 +2,27 @@
 
 #include "Process.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-    QCoreApplication app(argc, argv);
-
+    // connect to the hub
     QString IP = "127.0.0.1";
     QHostAddress adress( IP );
     QString port = "8890";
     SpinalCore* myConnector = new SpinalCore( adress, port.toInt() );
     
-    ModelPointer myModel = myConnector->load( "__myApp__/myModel" );
+    // synchronize models
+    ModelPointer myModel = myConnector->sync_model( "__myApp__/Model" );
+    myConnector->sync_type( "ModelType" );
+    ModelPointer myPointedModel = myConnector->sync_ptr( Ptr );
     
+    // use a process
     Process *myProcess = new Process();
     myProcess->connector = myConnector;
     myProcess->models << myModel;
-    myConnector->reg_model( myModel );
+    myProcess->models << myPointedModel;
 
-    QObject::connect( myConnector, SIGNAL(new_event(SpinalCore::Event)), myProcess, SLOT(launch(SpinalCore::Event)) );
-    QObject::connect( myConnector, SIGNAL(quit()), &app, SLOT(quit()) );
-
-    return app.exec();
-
+    while ( SpinalCore::Event event = myConnector->event() ){
+        myProcess->onchange( event );
+    }
 }
+

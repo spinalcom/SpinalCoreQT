@@ -1,22 +1,27 @@
 /*
- Copyright 2015 SpinalCom  www.spinalcom.com
-  
-
- This file is part of SpinalCore.
-
- SpinalCore is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- Soca is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- You should have received a copy of the GNU General Public License
- along with Soca. If not, see <http://www.gnu.org/licenses/>.
+ Copyright 2015 SpinalCom - www.spinalcom.com
+*
+* This file is part of SpinalCore.
+*
+* Please read all of the following terms and conditions
+* of the Free Software license Agreement ("Agreement")
+* carefully.
+*
+* This Agreement is a legally binding contract between
+* the Licensee (as defined below) and SpinalCom that
+* sets forth the terms and conditions that govern your
+* use of the Program. By installing and/or using the
+* Program, you agree to abide by all the terms and
+* conditions stated or referenced herein.
+*
+* If you do not agree to abide by these terms and
+* conditions, do not demonstrate your acceptance and do
+* not install or use the Program.
+*
+* You should have received a copy of the license along
+* with this file. If not, see
+* <http://resources.spinalcom.com/licenses.pdf>.
 */
-
 
 #include "ModelWithAttrAndName.h"
 

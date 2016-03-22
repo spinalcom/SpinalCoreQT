@@ -1,15 +1,10 @@
 #include "Process.h"
 
-Process::Process(){
-}
+Process::Process(){}
+Process::~Process(){}
 
-Process::~Process(){
-}
-
-void Process::launch(SpinalCore::Event event){
-    if(event.event_num != 1){
-        qDebug() << "test";
-    }
+void Process::onchange( SpinalCore::Event event ){
+	// process code here
 }
 
 
