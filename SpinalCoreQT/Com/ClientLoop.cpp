@@ -111,7 +111,6 @@ void ClientLoop::reg_model( Model *m, QObject *receiver, const char *member ) {
 }
 
 void ClientLoop::flush_out() {
-    qDebug() << "ON PASSE DANS FLUSH OUT";
     send_data();
 }
 
