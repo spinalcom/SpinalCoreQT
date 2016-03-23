@@ -28,7 +28,7 @@ SOURCES += main.cpp\
     SpinalCoreQT/Model/Val.cpp \
     SpinalCoreQT/Sys/BinRd.cpp \
     SpinalCoreQT/ModelPointer.cpp \
-    Process.cpp \
+    process.cpp \
 
 HEADERS  += SpinalCoreQT/Com/ClientLoop.h \
     SpinalCoreQT/Com/ClientLoop_parser.h \
@@ -50,7 +50,7 @@ HEADERS  += SpinalCoreQT/Com/ClientLoop.h \
     SpinalCoreQT/Sys/BinRd.h \
     SpinalCoreQT/Sys/S.h \
     SpinalCoreQT/ModelPointer.h \
-    Process.h \
+    process.h \
 
 OTHER_FILES += \
     README.txt
