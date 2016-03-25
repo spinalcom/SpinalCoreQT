@@ -65,11 +65,11 @@ void SpinalCore::reg_model( const ModelPointer &mp ) {
         client_loop->reg_model( m, this, SLOT(change_callback(Model*)) );
 }
 
-ModelPointer SpinalCore::load_ptr( quint64 ptr ) {
+ModelPointer SpinalCore::simple_load_ptr( quint64 ptr ) {
     return _wait_load( client_loop->load_ptr( ptr, this, SLOT(load_callback(Model*,int)) ) );
 }
 
-ModelPointer SpinalCore::load( QString path ) {
+ModelPointer SpinalCore::simple_load( QString path ) {
     return _wait_load( client_loop->load( path, this, SLOT(load_callback(Model*,int)) ) );
 }
 
@@ -194,21 +194,21 @@ void SpinalCore::disconnected() {
 
 // API functions ==================================================
 
-ModelPointer SpinalCore::sync_model( QString path )
+ModelPointer SpinalCore::load( QString path )
 {
-    ModelPointer loaded_model = SpinalCore::load( path );
+    ModelPointer loaded_model = SpinalCore::simple_load( path );
     SpinalCore::reg_model( loaded_model );
     return loaded_model;
 }
 
-ModelPointer SpinalCore::sync_ptr( quint64 ptr )
+ModelPointer SpinalCore::load_ptr( quint64 ptr )
 {
-    ModelPointer loaded_model = SpinalCore::load_ptr( ptr );
+    ModelPointer loaded_model = SpinalCore::simple_load_ptr( ptr );
     SpinalCore::reg_model( loaded_model );
     return loaded_model;
 }
 
-void SpinalCore::sync_type( QString type )
+void SpinalCore::load_type( QString type )
 {
     SpinalCore::reg_type( type );
 }

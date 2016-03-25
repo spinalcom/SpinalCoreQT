@@ -11,15 +11,15 @@ int main()
     SpinalCore* myConnector = new SpinalCore( adress, port.toInt() );
     
     // synchronize models
-    ModelPointer myModel = myConnector->sync_model( "__myApp__/Model" );
-    myConnector->sync_type( "ModelType" );
-    ModelPointer myPointedModel = myConnector->sync_ptr( Ptr );
+    ModelPointer myModel = myConnector->load( "__myApp__/Model" );
+    myConnector->load_type( "ModelType" );
+    //ModelPointer myPointedModel = myConnector->load_ptr( Ptr );
     
     // use a process
     Process *myProcess = new Process();
     myProcess->connector = myConnector;
     myProcess->models << myModel;
-    myProcess->models << myPointedModel;
+//     myProcess->models << myPointedModel;
 
     while ( SpinalCore::Event event = myConnector->event() ){
         myProcess->onchange( event );

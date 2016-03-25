@@ -70,8 +70,8 @@ public:
 
     void  reg_type( QString type, bool auto_reg_model = true ); ///< permit to get an event if an object of type $type is created on the server
     void  reg_model( const ModelPointer &mp ); ///< if changed, model will generate an Change event
-    ModelPointer    load_ptr( quint64 ptr ); ///< asynchronous load
-    ModelPointer    load( QString path ); ///< asynchronous load
+    ModelPointer    simple_load_ptr( quint64 ptr ); ///< asynchronous load
+    ModelPointer    simple_load( QString path ); ///< asynchronous load
     Event event(); ///< wait for an event
 
     bool   connected() const;
@@ -107,9 +107,9 @@ public:
     static int _nb_inst;
     
     // API functions ==============================================
-    ModelPointer sync_model( QString path ); // load and reg_model
-    ModelPointer sync_ptr( quint64 ptr ); // load_ptr and reg_model
-    void sync_type( QString type ); // reg_type
+    ModelPointer load( QString path ); // load and reg_model
+    ModelPointer load_ptr( quint64 ptr ); // load_ptr and reg_model
+    void load_type( QString type ); // reg_type
     // ============================================================
 
 };
