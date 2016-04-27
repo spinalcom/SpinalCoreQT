@@ -47,7 +47,7 @@ public:
         virtual void operator()( quint64 ) {}
     };
 
-    ClientLoop( Database *db, const QHostAddress &address, quint16 port );
+    ClientLoop( Database *db, const QHostAddress &address, quint16 port, qint32 userid, QString password );
     virtual ~ClientLoop();
 
     bool connected() const;
@@ -102,6 +102,7 @@ private:
     void rep_push_model( qint64 m ); ///<
     void rep_reg_type( qint64 m, int n_callback ); ///< when a new registered type has been created
     void rep_creation( qint64 m, const char *type_str, int type_len );
+    void rep_new_session(qint32 userid, QString password);
     void rep_load( qint64 m, int n_callback );
     void rep_end();
 

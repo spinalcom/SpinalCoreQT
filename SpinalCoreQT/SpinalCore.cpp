@@ -29,7 +29,7 @@
 int SpinalCore::_nb_inst = 0;
 static QCoreApplication *qcore_application = 0;
 
-SpinalCore::SpinalCore( const QHostAddress &address, quint16 port ) {
+SpinalCore::SpinalCore( const QHostAddress &address, quint16 port, qint32 userid, QString password ) {
     if ( not _nb_inst++ ) {
         int argc = 0;
         char *argv[] = {};
@@ -38,7 +38,7 @@ SpinalCore::SpinalCore( const QHostAddress &address, quint16 port ) {
 
     qevent_loop = 0;
     database = new Database;
-    client_loop = new ClientLoop( database, address, port );
+    client_loop = new ClientLoop( database, address, port, userid, password );
 
     connect( client_loop, SIGNAL(disconnected()), this, SLOT(disconnected()), Qt::QueuedConnection );
 }

@@ -65,7 +65,7 @@ public:
         };
     };
 
-    SpinalCore( const QHostAddress &address, quint16 port );
+    SpinalCore( const QHostAddress &address, quint16 port, qint32 userid, QString password );
     ~SpinalCore();
 
     void  reg_type( QString type, bool auto_reg_model = true ); ///< permit to get an event if an object of type $type is created on the server

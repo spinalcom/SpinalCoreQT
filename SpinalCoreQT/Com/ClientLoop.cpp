@@ -38,7 +38,7 @@
 #pragma lib_name QtNetwork
 #endif //METIL_COMP_DIRECTIVE
 
-ClientLoop::ClientLoop( Database *db, const QHostAddress &address, quint16 port ) : db( db ) {
+ClientLoop::ClientLoop( Database *db, const QHostAddress &address, quint16 port, qint32 userid, QString password ) : db( db ) {
     tcpSocket = new QTcpSocket( this );
     connect( tcpSocket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::QueuedConnection );
     connect( tcpSocket, SIGNAL(aboutToClose()), this, SLOT(aboutToClose()), Qt::QueuedConnection );
@@ -48,12 +48,19 @@ ClientLoop::ClientLoop( Database *db, const QHostAddress &address, quint16 port 
     tcpSocket->waitForConnected( 1000 );
     out_signaled = false;
 
+    // Create new session
+    rep_new_session(userid, password);
+
     db->clients.insert( this );
 }
 
 ClientLoop::~ClientLoop() {
     db->clients.remove( this );
     delete tcpSocket;
+}
+
+void ClientLoop::rep_new_session(qint32 userid, QString password) {
+    out << 'S' << userid << password;
 }
 
 int ClientLoop::load( QString addr, QObject *receiver, const char *member ) {
@@ -229,8 +236,9 @@ void ClientLoop::readChannelFinished() {
 
 void ClientLoop::send_data() {
     if ( out.size() ) {
+        // End message
         out << 'E';
-        //qDebug() << "#####################on passe la dedans !###########################";
+        // Write data and send
         tcpSocket->write( out.data() );
         tcpSocket->flush();
         while ( tcpSocket->bytesToWrite() )
@@ -239,7 +247,6 @@ void ClientLoop::send_data() {
         out.clear();
     }
 }
-
 
 bool ClientLoop::has_something_to_send() const {
     qDebug() << tcpSocket->bytesToWrite();
