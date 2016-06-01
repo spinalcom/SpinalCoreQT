@@ -43,6 +43,21 @@ SpinalCore::SpinalCore( const QHostAddress &address, quint16 port, qint32 userid
     connect( client_loop, SIGNAL(disconnected()), this, SLOT(disconnected()), Qt::QueuedConnection );
 }
 
+SpinalCore::SpinalCore( const QHostAddress &address, quint16 port ) {
+    if ( not _nb_inst++ ) {
+        int argc = 0;
+        char *argv[] = {};
+        qcore_application = new QCoreApplication( argc, argv );
+    }
+
+    qevent_loop = 0;
+    database = new Database;
+    // Instance Client loop with default params for user
+    client_loop = new ClientLoop( database, address, port, 644, "" );
+
+    connect( client_loop, SIGNAL(disconnected()), this, SLOT(disconnected()), Qt::QueuedConnection );
+}
+
 SpinalCore::~SpinalCore() {
     database->flush();
     delete client_loop;
