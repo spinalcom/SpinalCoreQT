@@ -9,7 +9,7 @@ QT      += network
 
 TARGET = ../organ.run
 TEMPLATE = app
-
+VERSION = 2.0.1
 
 SOURCES += main.cpp\
     SpinalCoreQT/Com/ClientLoop.cpp \
