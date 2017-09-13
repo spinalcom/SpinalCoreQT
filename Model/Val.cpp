@@ -29,6 +29,8 @@
 #include <limits>
 #include <cmath>
 
+using namespace std; // compatibility problem for isnan with c98 and c++11
+
 Val::Val( qint64 man, qint32 exp ) : man( man ), exp( exp ) {
 }
 
